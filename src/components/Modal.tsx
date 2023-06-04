@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useFocusTrap from '../hooks/useFocusTrap';
 import './Modal.css';
 
@@ -7,6 +7,7 @@ type ModalProps = {
   onClose: () => void;
   children: React.ReactNode;
   triggerElementRef: React.RefObject<HTMLElement>;
+  modalHeadingRef?: React.RefObject<HTMLHeadingElement>;
 };
 
 const Modal = ({
@@ -14,8 +15,10 @@ const Modal = ({
   onClose,
   children,
   triggerElementRef,
+  modalHeadingRef,
 }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const [labelledbyId, setLabelledbyId] = useState<string>('');
 
   useFocusTrap(modalRef, showModal);
 
@@ -23,7 +26,11 @@ const Modal = ({
     if (!showModal && triggerElementRef.current) {
       triggerElementRef.current.focus();
     }
-  }, [showModal, triggerElementRef]);
+
+    if (showModal && modalHeadingRef?.current?.id) {
+      setLabelledbyId(modalHeadingRef.current.id);
+    }
+  }, [showModal, triggerElementRef, modalHeadingRef]);
 
   if (!showModal) {
     return null;
@@ -35,7 +42,7 @@ const Modal = ({
       onClick={onClose}
       role='dialog'
       aria-modal='true'
-      aria-label='Modal'
+      aria-labelledby={labelledbyId}
       ref={modalRef}
     >
       <div className='modal-content' onClick={(e) => e.stopPropagation()}>

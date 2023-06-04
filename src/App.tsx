@@ -4,6 +4,7 @@ import Modal from './components/Modal';
 const App = () => {
   const [showModal, setShowModal] = useState(false);
   const triggerElementRef = useRef<null | HTMLElement>(null);
+  const modalHeadingRef = useRef<HTMLHeadingElement>(null);
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -21,9 +22,19 @@ const App = () => {
         showModal={showModal}
         onClose={() => setShowModal(false)}
         triggerElementRef={triggerElementRef}
+        modalHeadingRef={modalHeadingRef}
       >
-        <h2>Hello, world!</h2>
-        <p>Welcome to our modal dialog.</p>
+        <h2 ref={modalHeadingRef} id='sample-modal-heading'>
+          Accessible Modal Example
+        </h2>
+        <p>
+          This component provides a practical demonstration of an accessible
+          modal dialog that secures user focus within its boundaries. By
+          implementing it in React, we capitalize on the benefits of component
+          reusability and scalability. TypeScript further fortifies our design
+          by enhancing code clarity, simplifying intent recognition, and
+          minimizing the potential for common errors.
+        </p>
         <ul>
           <li>
             <a href='https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/'>
