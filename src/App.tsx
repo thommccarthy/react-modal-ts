@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Modal from './components/Modal';
 
 const App = () => {
@@ -6,25 +6,50 @@ const App = () => {
   const triggerElementRef = useRef<null | HTMLElement>(null);
   const modalHeadingRef = useRef<HTMLHeadingElement>(null);
 
-  const handleClick = (
+  const openModal = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     triggerElementRef.current = event.currentTarget;
     setShowModal(true);
   };
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showModal === true) {
+        closeModal();
+        triggerElementRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showModal]);
+
   return (
     <div>
       <h1>Accessible React Modal</h1>
-      <button onClick={handleClick}>Open Modal</button>
+      <button
+        aria-haspopup='dialog'
+        aria-expanded={showModal ? 'true' : 'false'}
+        onClick={openModal}
+      >
+        Open Modal
+      </button>
 
       <Modal
         showModal={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={closeModal}
         triggerElementRef={triggerElementRef}
         modalHeadingRef={modalHeadingRef}
       >
-        <h2 ref={modalHeadingRef} id='sample-modal-heading'>
+        <h2 ref={modalHeadingRef} id='accessible-modal-heading'>
           Accessible Modal Example
         </h2>
         <p>

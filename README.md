@@ -25,7 +25,7 @@ To get the project up and running, follow these steps:
 2. Navigate to the project directory:
 
    ```
-   cd accessible-react-modal
+   cd react-modal-ts
    ```
 
 3. Install dependencies:
@@ -37,7 +37,7 @@ To get the project up and running, follow these steps:
 4. Start the project:
 
    ```
-   npm start
+   npm run dev
    ```
 
 Your application should now be running at `http://localhost:5713`.

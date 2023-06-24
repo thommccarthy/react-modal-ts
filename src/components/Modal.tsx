@@ -7,7 +7,7 @@ type ModalProps = {
   onClose: () => void;
   children: React.ReactNode;
   triggerElementRef: React.RefObject<HTMLElement>;
-  modalHeadingRef?: React.RefObject<HTMLHeadingElement>;
+  modalHeadingRef: React.RefObject<HTMLHeadingElement>;
 };
 
 const Modal = ({
@@ -45,7 +45,10 @@ const Modal = ({
       aria-labelledby={labelledbyId}
       ref={modalRef}
     >
-      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+      <div
+        className='modal-content'
+        onClick={(event) => event.stopPropagation()}
+      >
         <button onClick={onClose}>Close</button>
         {children}
       </div>
